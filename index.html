@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Management Keuangan</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.5/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="bg-sky-50 text-slate-800 font-[Poppins]">
+  <!-- Header / Hero -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-sky-500 via-sky-400 to-blue-500 opacity-90"></div>
+    <svg class="absolute -right-24 -top-24 w-[480px] h-[480px] opacity-20 blur-3xl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#ffffff" d="M35.4,-51.1C46.9,-46.4,58.4,-39.4,64.7,-28.9C71,-18.3,72.2,-4.1,68.4,8.5C64.7,21.1,56,32,46,43.8C35.9,55.7,24.6,68.5,10.1,77.1C-4.4,85.7,-22.2,90.1,-37.8,84.7C-53.4,79.3,-66.8,64.2,-74.9,46.8C-83,29.4,-85.7,9.7,-81.1,-8.1C-76.4,-25.9,-64.4,-41.9,-50.2,-47.5C-36,-53.1,-18,-48.3,-2.1,-45.7C13.8,-43,27.6,-42,35.4,-51.1Z" transform="translate(100 100)" />
+    </svg>
+    <div class="relative container mx-auto px-6 py-16 text-white">
+      <h1 class="text-3xl md:text-5xl font-semibold drop-shadow">Management Keuangan</h1>
+      <p class="mt-3 text-white/90">Catat pemasukan & pengeluaran harianmu dengan gaya Traveloka ✈️</p>
+      <div id="greetBar" class="mt-6 hidden">
+        <h2 class="text-xl md:text-2xl font-medium">Halo, <span id="greetName"></span> 👋</h2>
+        <p class="text-white/90">Berikut adalah ringkasan hari ini — tetap konsisten, masa depan aman! 💼</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth Cards -->
+  <section class="container mx-auto px-6 -mt-10">
+    <div id="authSection" class="grid md:grid-cols-2 gap-6">
+      <!-- Login Card -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-sky-100 animate-fadeIn">
+        <h3 class="text-xl font-semibold mb-4 text-sky-700">Masuk</h3>
+        <form id="loginForm" class="space-y-3">
+          <div>
+            <label class="text-sm">Nomor Telepon</label>
+            <input required name="phone" type="tel" placeholder="08xxxxxxxxxx" class="input" />
+          </div>
+          <div>
+            <label class="text-sm">Password</label>
+            <input required name="password" type="password" placeholder="••••••••" class="input" />
+          </div>
+          <button class="btn-primary w-full">Masuk</button>
+        </form>
+      </div>
+
+      <!-- Register Card -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-sky-100 animate-fadeIn delay-150">
+        <h3 class="text-xl font-semibold mb-4 text-sky-700">Daftar</h3>
+        <form id="registerForm" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="md:col-span-2">
+            <label class="text-sm">Nama</label>
+            <input required name="name" type="text" placeholder="Nama lengkap" class="input" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="text-sm">Nomor Telepon</label>
+            <input required name="phone" type="tel" placeholder="08xxxxxxxxxx" class="input" />
+          </div>
+          <div>
+            <label class="text-sm">Password</label>
+            <input required name="password" type="password" placeholder="Minimal 6 karakter" class="input" />
+          </div>
+          <div>
+            <label class="text-sm">Konfirmasi Password</label>
+            <input required name="confirm" type="password" placeholder="Ulangi password" class="input" />
+          </div>
+          <div class="md:col-span-2">
+            <button class="btn-secondary w-full">Buat Akun</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashSection" class="container mx-auto px-6 py-10 hidden">
+    <!-- Form Input -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 border border-sky-100 animate-popIn">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-sky-700">Input Transaksi</h3>
+        <button id="logoutBtn" class="text-sm text-red-500 hover:underline">Logout</button>
+      </div>
+      <form id="txForm" class="grid md:grid-cols-6 gap-3 mt-4">
+        <div class="md:col-span-2">
+          <label class="text-sm">Tanggal / Hari</label>
+          <input id="dateField" disabled class="input bg-slate-50" />
+        </div>
+        <div>
+          <label class="text-sm">Jenis</label>
+          <select name="type" class="select">
+            <option value="pemasukan">Pemasukan</option>
+            <option value="pengeluaran">Pengeluaran</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm">Sumber</label>
+          <select name="source" class="select">
+            <option>uang saku</option>
+            <option>keluarga</option>
+            <option>teman</option>
+            <option>job</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm">Metode</label>
+          <select name="method" class="select">
+            <option>cash</option>
+            <option>e-wallet</option>
+            <option>rekening</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm">Jumlah (Rp)</label>
+          <input name="amount" type="number" min="0" step="100" placeholder="0" class="input" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="text-sm">Barang / Keterangan</label>
+          <input name="item" type="text" placeholder="contoh: Beli makan" class="input" />
+        </div>
+        <div class="md:col-span-6 mt-1">
+          <button class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Ringkasan -->
+    <div class="grid md:grid-cols-3 gap-4 mt-6">
+      <div class="card-stat">
+        <div class="text-slate-500 text-sm">Total Pemasukan</div>
+        <div id="sumIn" class="text-2xl font-semibold">Rp 0</div>
+      </div>
+      <div class="card-stat">
+        <div class="text-slate-500 text-sm">Total Pengeluaran</div>
+        <div id="sumOut" class="text-2xl font-semibold">Rp 0</div>
+      </div>
+      <div class="card-stat">
+        <div class="text-slate-500 text-sm">Saldo</div>
+        <div id="sumBal" class="text-2xl font-semibold">Rp 0</div>
+      </div>
+    </div>
+
+    <!-- Tabel Data -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 border border-sky-100 mt-6 animate-fadeIn">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-sky-700">Data Transaksi</h3>
+        <input id="search" class="input w-64" placeholder="Cari keterangan…" />
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="bg-sky-50 text-sky-700">
+              <th class="th">No</th>
+              <th class="th">Tanggal/Hari</th>
+              <th class="th">Jenis</th>
+              <th class="th">Sumber</th>
+              <th class="th">Metode</th>
+              <th class="th">Jumlah</th>
+              <th class="th">Barang</th>
+              <th class="th">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="text-center text-slate-500 mt-8 mb-6">© Wanz Official</footer>
+  </section>
+
+  <!-- Modal Welcome -->
+  <div id="welcomeModal" class="modal hidden">
+    <div class="modal-card">
+      <h3 class="text-xl font-semibold text-sky-700">Selamat datang kembali, <span id="welcomeName"></span>! 🎉</h3>
+      <p class="mt-2 text-slate-600">Tetap disiplin mencatat pengeluaranmu. Langsung mulai input transaksi di bawah ya.</p>
+      <button id="closeWelcome" class="btn-primary mt-4">Siap!</button>
+    </div>
+  </div>
+
+  <!-- Modal Edit -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal-card w-full max-w-2xl">
+      <h3 class="text-lg font-semibold text-sky-700">Edit Transaksi</h3>
+      <form id="editForm" class="grid md:grid-cols-3 gap-3 mt-3">
+        <input type="hidden" name="id" />
+        <div>
+          <label class="text-sm">Jenis</label>
+          <select name="type" class="select">
+            <option value="pemasukan">Pemasukan</option>
+            <option value="pengeluaran">Pengeluaran</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm">Sumber</label>
+          <select name="source" class="select">
+            <option>uang saku</option>
+            <option>keluarga</option>
+            <option>teman</option>
+            <option>job</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm">Metode</label>
+          <select name="method" class="select">
+            <option>cash</option>
+            <option>e-wallet</option>
+            <option>rekening</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm">Jumlah (Rp)</label>
+          <input name="amount" type="number" class="input" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="text-sm">Barang / Keterangan</label>
+          <input name="item" type="text" class="input" />
+        </div>
+        <div class="md:col-span-3 mt-1">
+          <div class="flex gap-2 justify-end">
+            <button type="button" id="cancelEdit" class="btn-light">Batal</button>
+            <button class="btn-primary">Simpan Perubahan</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
